@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 public class WithdrawTest {
 
+    // Test: Withdraw toString method returns the correct format for checking account
     @Test
     public void testCheckingAccount(){
         Withdraw withdraw = new Withdraw(10.0, new Date(122, 11, 25, 4, 16, 17), Customer.CHECKING, 5.00);
@@ -11,6 +12,7 @@ public class WithdrawTest {
         assertEquals(expected, withdraw.toString());
     }
 
+    // Test: Withdraw toString method returns the correct format for savings account
     @Test
     public void testSavingAccount(){
        Withdraw withdraw = new Withdraw(10.0, new Date(122, 11, 25, 4, 16, 17), Customer.SAVING, 5.00);

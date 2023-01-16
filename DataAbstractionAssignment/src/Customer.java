@@ -29,10 +29,15 @@ public class Customer {
         this.checkBalance = checkDeposit;
         this.savingBalance = savingDeposit;
     }
+
     // Requires: Double, Date and String
     // Modifies: this, deposits
     // Effects: Adds to balance and returns balance
     public double deposit(double amt, Date date, String account) {
+        // make sure amount has only two decimal places
+        // https://linuxhint.com/round-double-to-two-decimal-places-in-java/
+        amt = Math.floor(amt*100)/100;
+
         if (account.equals(CHECKING)) {
             if (amt > 0) {
                 checkBalance = checkBalance + amt;
@@ -49,60 +54,63 @@ public class Customer {
             return savingBalance;
         }
     }
+
     // Requires: nothing
     // Modifies: nothing
     // Effects: returns savingBalance
-
     public double getSavingBalance(){
 
         return savingBalance;
     }
+
     // Requires: nothing
     // Modifies: nothing
     // Effects: returns checkingBalance
-
     public double getCheckingBalance(){
 
         return checkBalance;
     }
+
     // Requires: nothing
     // Modifies: nothing
     // Effects: returns deposits.size()
-
     public int getDepositsListSize(){
-
         return  deposits.size();
     }
+
     // Requires: nothing
     // Modifies: nothing
-    // Effects: returns withdraws.size()
-
+    // Effects: returns list of withdrawals
     public List<Withdraw> getWithdrawList(){
-
         return  Collections.unmodifiableList(withdraws);
     }
-
 
     // Requires: Double, Date and String
     // Modifies: this, withdraw
     // Effects: Removes from balance and returns balance
-
     public double withdraw(double amt, Date date, String account){
+        // make sure amount has only two decimal places
+        // https://linuxhint.com/round-double-to-two-decimal-places-in-java/
+        amt = Math.floor(amt*100)/100;
+
         if (account.equals(CHECKING)) {
+            // Withdraw from Checking account.
             if (amt > 0) {
+
                 if (checkOverdraft(amt, account) == false) {
                     checkBalance = checkBalance - amt;
+
                     Withdraw withdraw = new Withdraw(amt, date, account, checkBalance);
                     withdraws.add(withdraw);
                 }
                 else {
-                    Withdraw overdraft = new Withdraw(amt, date, account ,checkBalance);
-                    System.out.println("You have insufficient funds.");
+                   System.out.println("You have insufficient funds.");
                 }
             }
             return checkBalance;
 
-        } else {
+        } else if (account.equals(SAVING)){
+
             if (amt > 0){
                 if (checkOverdraft(amt, account) == false){
                     savingBalance = savingBalance - amt;
@@ -110,13 +118,18 @@ public class Customer {
                     withdraws.add(withdraw);
                 }
                 else {
-                    Withdraw overdraft = new Withdraw(amt, date, account ,savingBalance);
+                    // There is an overdraft. No money is withdrawn from the account
+                    // Print out a message to the user
                     System.out.println("You have insufficient funds.");
                 }
             }
             return savingBalance;
+        } else {
+            System.out.println("You have an invalid account type " + account + ".");
+            return amt;
         }
     }
+
     // Requires: double and String
     // Modifies: nothing
     // Effects: Checks if there is an overdraft. Returns boolean

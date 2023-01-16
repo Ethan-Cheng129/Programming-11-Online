@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 public class DepositTest {
 
+    // Test: Deposit toString method returns the correct format for checking account
     @Test
     public void testCheckingAccount(){
         Deposit deposit = new Deposit(10.0, new Date(122, 11, 25, 4, 16, 17), Customer.CHECKING, 15.00);
@@ -11,6 +12,7 @@ public class DepositTest {
         assertEquals(expected, deposit.toString());
     }
 
+    // Test: Deposit toString method returns the correct format for savings account
     @Test
     public void testSavingAccount(){
         Deposit deposit = new Deposit(10.0, new Date(122, 11, 25, 4, 16, 17), Customer.SAVING, 15.00);

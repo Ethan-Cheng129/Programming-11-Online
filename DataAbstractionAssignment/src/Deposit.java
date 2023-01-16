@@ -1,6 +1,11 @@
+import java.text.DecimalFormat;
 import java.util.Date;
 
 public class Deposit {
+
+    // This is to format the withdrawal amount to two decimal places.
+    private static final DecimalFormat df = new DecimalFormat("0.00");
+
     private double amount;
     private Date date;
     private String account;
@@ -13,8 +18,10 @@ public class Deposit {
         this.balance = balance;
     }
 
+    // Requires nothing
+    // Modifies nothing
+    // Effects returns deposit amount, date, account and current balance
     public String toString(){
-        //your code here
-        return "Deposit of: $" + amount + " Date: " + date + " into account: " + account + " Current Balance in " + account + " is: $" + balance;
+        return "Deposit of: $" + df.format(amount) + " Date: " + date + " into account: " + account + " Current Balance in " + account + " is: $" + balance;
     }
 }
